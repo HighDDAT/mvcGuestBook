@@ -100,6 +100,7 @@ public class GuestController extends HttpServlet {
 			guestService.removeBooks(guest_no);
 			System.out.println("삭제할 방명록 번호 : "+guest_no);
 			
+			
 			PrintWriter out = response.getWriter();
 			out.print("<script>"
 					+ " alert( '"+guest_no+"번 방명록을 삭제했습니다');"

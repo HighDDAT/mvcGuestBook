@@ -78,24 +78,14 @@
 				<td>${guest.guest_content}</td>
 				<td>${guest.append_date}</td>
 				<td>
-				
-					<!--<input type=button value="삭제1"  class="btn btn-danger"
-						onClick="fn_remove_article('${cPath}/guest/delGuest.do', ${guest.guest_no})">
-							
-					  <input type="button" value="삭제1" class="btn btn-danger"
-                   		 onclick="location.href = 'delGuest.do?guest_no=${guest.guest_no}'">-->
-						
-					 <!-- -->
-					 <input type="button" class="btnDelete btn btn-outline-danger"
-					 	name="${guest.guest_no}" alt="${guest.guest_pw}"
-					 	value="삭제">
-					
-					<!--  
-					<div class="del btn btn-danger">
-						<input type="hidden" class="no" value="${guest.guest_no}">
-						삭제
-						</div> -->
-						
+					<form name="delBooks" method="post" enctype="multipart/form-data"
+						action="${cPath}/guest/delGuest.do">
+						<input type="hidden" name="delCheck" value="${guest.guest_no}">
+							<input type="button"
+								class="btnDelete btn btn-primary" id="btnDelete"
+								name="${guest.guest_no }" alt="${guest.guest_pw }"
+								value="삭제">
+					</form>		
 				</td>
 			</tr>	
 		</c:forEach>
@@ -103,137 +93,49 @@
 </table>
 
 
-<!--Modal -->
 
-	<!-- <div class="modal fade" id="exampleModal" tabindex="-1"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="exampleModalLabel">${guest.guest_no}번째 방명록 삭제</h1>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				
-				<form action="${cPath}/guest/delGuest.do" method="post">
-				
-					<div class="modal-body">
-					<input type="hidden" name="guest_no" value='${ param.guest_no }'>
-						<div class="mb-3">
-						    <label for="exampleInputPassword1" class="form-label">비밀번호를 입력하세요</label>
-						    <input type="password" class="form-control" id="guest_pw" name="guest_pw">
-	  					</div>
-					</div>
-				
-					<div class="modal-footer">
-						<input type="button" id="btnDeleteGo" class="btn btn-default" 
-						value="메시지 삭제하기" alt="" style="font-size:10px">
-                  <input type="button" class="btn btn-default" data-dismiss="modal" 
-                  		value="닫기" style="font-size:10px">
-					</div>
-				</form>
-				
-			</div>
-		</div>
-	</div> -->
-<!--
-   <script type="text/javascript" >
-     
-	 function fn_remove_article(url,guest_no){
-		 var form = document.createElement("form");
-		 
-		 form.setAttribute("method", "post");
-		 form.setAttribute("action", url);
-		 
-	     var guest_noInput = document.createElement("input");
-	     guest_noInput.setAttribute("type","hidden");
-	     guest_noInput.setAttribute("name","guest_no");
-	     guest_noInput.setAttribute("value", guest_no);
-		 
-	     form.appendChild(guest_noInput);
-	     document.body.appendChild(form);
-	     form.submit();
-	 }
-	
-
-	
-	$(function() {
-		console.log('제이쿼리 연결')
-		
-		$(".btnDelete").click(function() {
-			
-			console.log('click')
-			
-			del_guestNum = $(this).attr('name'); // 게시글번호
-			del_guestPw = $(this).attr('alt'); // 비밀번호
-			
-			
-			
-		})
-			
-	})
-		
-		/*
-	 $(".btnDelete").click(function(){
-         // 삭제 게시글의 실제 비밀번호를 js 변수 
-         del_guestNum = $(this).attr('name'); // PK
-         del_guestPw = $(this).attr('alt');  // 비밀번호
-         var del_messageId, del_password ;
-         
-         $('#btnDeleteGo').click(function (){
-            // 삭제하기 위해 입력한 비밀번호  $('#password').val() 
-            if( $('#guest_pw').val() != del_guestPw){
-               alert(' 비밀번호 틀림!!!');
-               return;
-            }
-            //비밀번호가 맞으면 
-            location.href=
-               "delGuest.do?guest_no="+
-               		del_guestNum+"&guest_pw="+del_guestPw;
-         });
-         */
-
- </script>
-  -->
 <!-- 제이쿼리 -->  
 <script
    src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
- 
- <!-- 부트스트랩 -->  
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-	 integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" 
-	 crossorigin="anonymous"></script>
 	 
+<!--  부트 스트랩 모달 창 기능 자바스크립트 링크 -->
 <script
 	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
 	integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
 	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+	integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+	crossorigin="anonymous"></script>
 
-<!-- 삭제 관련 모달 스크립트 -->	
 <script>
 $(function() {
-	console.log('제이쿼리 연결')
+	console.log('제이쿼리')
 	
-	// btnDelete 누르면 값 받아와서 변수 만들고 모달창 띄우기
-	$(".btnDelete").click(function(){
-        // 삭제 게시글의 실제 비밀번호를 js 변수 
-        del_password = $(this).attr('alt');  // 비밀번호
-        del_messageId = $(this).attr('name'); // PK
-        
-        // 모달창 띄우는 함수 : modal()
-          $("#myModal").modal({backdrop: "static"});
-          $("#myModal").on('shown.bs.modal', function () {
-             $('#password').focus();
-          });
-	      });
-	     
-	     $('#myModal > div').css({
-	        "width":"400px"
-	        ,"top":'150px'
-	        ,"margin":'0 auto'
-	     });
+	$(".btnDelete").click(function() {
+		console.log('클릭이벤트 발생');
 		
-})
-</script>   
+		del_guestNum = $(this).attr('name');
+		del_guestPW = $(this).attr('alt');
+		
+		console.log(del_guestNum);
+		console.log(del_guestPW);
+		
+		
+		pwCheck = prompt('비밀번호를 입력하세요');
+		
+		if(del_guestPW == pwCheck) {
+			location.href=
+	            "delGuest.do?guest_no="+
+	            del_guestNum+"&guest_pw="+del_guestPW;
+		} else if(pwCheck == null) {
+        	return;
+		} else {
+			alert("비밀번호가 맞지 않습니다.");
+		};
+	});
+});
+
+</script>
 </body>
 </html>

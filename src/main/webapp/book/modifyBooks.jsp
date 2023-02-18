@@ -18,7 +18,11 @@
 </head>
 <body>
 
-
+<h1>
+수정
+<br>
+삭제
+</h1>
 
 </body>
 </html>
