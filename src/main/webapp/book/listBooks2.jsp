@@ -12,9 +12,6 @@
 <meta charset="UTF-8">
 <title>방명록</title>
 <style>
-.modal{ 
-  position:absolute; width:100%; height:100%; background: rgba(0,0,0,0.8); top:0; left:0; display:none;
-}
 .area_namePw input {
 	width: 30%;
 	display: inline-block;
@@ -33,20 +30,34 @@
 	crossorigin="anonymous">
 </head>
 <body>
-	<form name="data" method="post" id="writeForm"
-			onsubmit="return writeCheck()" action="${cPath}/guest/insertGuest.do" >
+	<form name="frmGuest" method="post"
+			action="${cPath}/guest/insertGuest.do" >
 			<input type="hidden" name="guest_no" value="${guest.guest_no}" />
+		<div class="form">
 			<h3>Guestbook</h3>
+			<div class="area_reply">
+				<div class="area_namePw">
+					<div class="mb-4">
 						<input type="text" class="form-control" 
 						name="guest_name" id="guest_name" placeholder="name">
 						<input type="password" class="form-control"
 						name="guest_pw" id="guest_pw" placeholder="password">
+					</div>
+				</div>
+				<div class="area_text">	
+					<div class="mb-4">
 						 <textarea class="form-control" aria-label="With textarea" placeholder="여러분의 소중한 방명록을 작성해주세요"
 						 name="guest_content" id="guest_content"></textarea>
-		<input type="submit" value="작성" class="btnWrite btn btn-primary" />
-		<input type="reset" value="취소" class="btnWrite btn btn-secondary" />
-	</form>	  	
-	
+			  		</div>
+			  	</div>	
+			  	<div class="area_btn">	
+					<div class="mb-4 form-check">
+			  			<input type="button" class="btnWrite btn btn-primary" value="작성" />
+					</div>
+				</div>
+			</div>
+			</div>
+	</form>
 <table class="table">
 	<thead class="table-primary">
 		<tr>
@@ -66,10 +77,14 @@
 				<td>${guest.guest_content}</td>
 				<td>${guest.append_date}</td>
 				<td>
+					<form name="delBooks" method="post" enctype="multipart/form-data"
+						action="${cPath}/guest/delGuest.do">
+						<input type="hidden" name="delCheck" value="${guest.guest_no}">
 							<input type="button"
-								class="btnDelete btn btn-danger" id="btnDelete"
+								class="btnDelete btn btn-primary" id="btnDelete"
 								name="${guest.guest_no }" alt="${guest.guest_pw }"
 								value="삭제">
+					</form>		
 				</td>
 			</tr>	
 		</c:forEach>
@@ -77,8 +92,11 @@
 </table>
 
 
+<!-- 제이쿼리 -->  
+<script
+   src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	 
-<!--  부트 스트랩 모달 창 기능 자바스크립트 링크
+<!--  부트 스트랩 모달 창 기능 자바스크립트 링크 -->
 <script
 	src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
 	integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
@@ -86,93 +104,13 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
 	integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
-	crossorigin="anonymous"></script> -->
+	crossorigin="anonymous"></script>
 
-<!-- 제이쿼리 모달 -->
-<div class="modal">
-		<input type="hidden" name="delCheck" value="${guest.guest_no}">
-		  <div class="modal_content" 
-		       title="방명록삭제">
-		       방명록을 삭제하려면 비밀번호를 입력하세요 : <br>
-		    <input type="password" class="form-control"
-				name="pwChk" id="pwChk" placeholder="password">
-			</div>
-			<div class="modal-footer">
-				<input type="button" class="modal_delete btn btn-danger" value="삭제">
-				<input type="button" class="modal_cancel btn btn-secondary" value="취소">
-			</div>
-</div>
-
-
-<!-- 제이쿼리 --> 
-<script
-   src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-   
- <script>
-//글작성 이전 유효성 검사
-function writeCheck(){
-	
-	  if($("#guest_name").val() == "") {
-		   alert("이름을 입력해주세요");
-		   $("#guest_name").focus();
-		   return false;
-	  } 
-	  if($("#guest_pw").val() == "") {
-		   alert("비밀번호를 입력해주세요");
-		   $("#guest_pw").focus();
-		   return false;
-	  } 
-	  if($("#guest_content").val() == "") {
-		   alert("내용을 입력해주세요");
-		   $("#guest_content").focus();
-		   return false;
-	  }
-	  }
-</script>
-
-<!-- 삭제부분 -->
 <script>
-
 $(function() {
 	
 	console.log('제이쿼리')
 	
-	// 리스트에서 삭제 버튼을 누르면		
-  $(".btnDelete").click(function(){
-	  	console.log('클릭이벤트 발생');
-		
-		del_guestNum = $(this).attr('name');
-		del_guestPW = $(this).attr('alt');
-		
-		console.log(del_guestNum);
-		console.log(del_guestPW);
-		
-    $(".modal").fadeIn();
-    
-  });
-  
-	// 모달에서 삭제하기
-  var del_guestNum, del_guestPW ;
-  $(".modal_delete").click(function() {
-	
-	  // 비밀번호 확인 후 삭제
-	  if( $('#pwChk').val() == del_guestPW) {
-			location.href=
-	            "delGuest.do?guest_no="+
-	            del_guestNum+"&guest_pw="+del_guestPW;
-		} else {
-			alert("비밀번호가 맞지 않습니다.");
-			return;
-		};
-	  
-  });
-  
-  // 모달창 닫기
-  $(".modal_cancel").click(function(){
-    $(".modal").fadeOut();
-  });
-  
-	/*
 	$(".btnDelete").click(function() {
 		console.log('클릭이벤트 발생');
 		
@@ -196,7 +134,7 @@ $(function() {
 		};
 		
 	});
-	*/
+	
 });
 </script>
 
