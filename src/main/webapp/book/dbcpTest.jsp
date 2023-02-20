@@ -1,3 +1,5 @@
+<%@page import="guestBook.test.sqlTest"%>
+<%@page import="org.apache.ibatis.session.SqlSessionFactory"%>
 <%@page import="guestBook.test.DBCP"%>
 <%@page import="java.sql.Connection"%>
 <%@page language="java" contentType="text/html; charset=UTF-8"
@@ -13,6 +15,8 @@
 
 Connection conn = DBCP.dbConn();
 out.print("DBCP 연결");
+
+
 
 %>
 </body>

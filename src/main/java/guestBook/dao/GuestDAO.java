@@ -14,10 +14,12 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+
 import guestBook.dto.GuestDTO;
 
 public class GuestDAO {
 
+	
 	private DataSource ds;
 	Connection conn;
 	PreparedStatement pstmt;
@@ -114,8 +116,6 @@ public class GuestDAO {
 		
 		return result;
 	}
-	
-	// 삭제 시 패스워드 받아오기
 	
 	// 방명록 삭제
 	public void deleteBooks (int guest_no) {
